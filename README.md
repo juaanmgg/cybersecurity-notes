@@ -28,6 +28,7 @@ He clasificado las máquinas por sistema operativo. Puedes hacer clic en "Leer" 
 | Máquina | Dificultad | Fecha | Conceptos Clave & Técnicas | Writeup |
 | :--- | :--- | :--- | :--- | :--- |
 | **Blue** | 🟢 Fácil | 13/06/2026 | MS17-010 (EternalBlue), Metasploit, Hash dumping, NTLM cracking (John The Ripper) | [👉 Leer](./Windows/Blue.md) |
+| **Ice** | 🟢 Fácil | 17/06/2026 | Icecast Exploit, Local Exploit Suggester, Process Migration (spoolsv.exe), Kiwi/Mimikatz | [👉 Leer](./Windows/Ice.md) |
 
 ---
 

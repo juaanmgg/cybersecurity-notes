@@ -33,28 +33,14 @@ He clasificado las máquinas por sistema operativo. Puedes hacer clic en "Leer" 
 
 ---
 
-## 🛠️ Herramientas y Metodología
+## 🛠️ Metodología y Stack Técnico
 
-Para la resolución de estas máquinas, aplico un enfoque estructurado simulando un entorno real de Penetration Testing, utilizando el siguiente arsenal técnico:
+La resolución de las máquinas sigue un ciclo de auditoría profesional estructurado, combinando explotación manual y automatizada:
 
-* 🔍 **Reconocimiento & Enumeración:** 
-  * Escaneo de red y vulnerabilidades: `nmap` (TCP/UDP, Scripts NSE).
-  * Enumeración de directorios web y OSINT: `gobuster`, análisis manual de fuentes.
-  * Enumeración de servicios SMB/RPC: `enum4linux`, `smbmap`.
-* 💥 **Acceso Inicial & Explotación:** 
-  * Búsqueda e implementación de CVEs públicos (`searchsploit`).
-  * Explotación de servicios web (Inyecciones SQL, *File Upload Bypasses*).
-  * Interacción con servicios de escritorio remoto (`xfreerdp`).
-  * Uso avanzado de `Metasploit Framework`, incluyendo ataques *fileless* en memoria (`web_delivery`).
-* ⬆️ **Post-Explotación & Escalada de Privilegios (PrivEsc):** 
-  * **Entornos Linux:** Enumeración manual de binarios SUID y configuraciones Sudo (GTFOBins), estabilización interactiva de TTY.
-  * **Entornos Windows:** *Bypass* de controles UAC (ej. CVE-2019-1388), automatización de vectores locales (`local_exploit_suggester`), inyección y migración de procesos a servicios críticos (`spoolsv.exe`).
-* 🔑 **Extracción de Credenciales y Persistencia:**
-  * Volcado de bases de datos SAM y hashes locales (`hashdump`).
-  * Extracción de credenciales cacheadas en memoria RAM mediante `Kiwi` (Mimikatz).
-  * Creación de persistencia automatizada en el registro de Windows.
-* 🔓 **Cracking:**
-  * Ruptura de hashes NTLM y MD5 (con/sin *salt*) utilizando `Hashcat` y `John the Ripper`.
+* 🔍 **Reconocimiento & OSINT:** Análisis de superficie de ataque y enumeración de infraestructura con `nmap` (scripts NSE), `gobuster`, `enum4linux` y `smbmap`.
+* 💥 **Acceso Inicial:** Explotación de vulnerabilidades web (SQLi, *File Upload Bypasses*), validación de CVEs (`searchsploit`) y ejecución de *payloads fileless* en memoria vía `Metasploit` (`web_delivery`).
+* ⬆️ **Escalada de Privilegios:** Abuso de SUID/Sudo en entornos Linux (GTFOBins) y *bypasses* de UAC en Windows (ej. CVE-2019-1388), incluyendo inyección y migración de procesos (`spoolsv.exe`).
+* 🔑 **Post-Explotación & Cracking:** Extracción de credenciales cacheadas en memoria (`Kiwi/Mimikatz`), volcado de la SAM, persistencia en registro y ruptura de hashes offline (*NTLM/MD5*) con `Hashcat` y `John the Ripper`.
 
 ---
 

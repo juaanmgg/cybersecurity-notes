@@ -4,7 +4,7 @@
 
 ![Cybersecurity](https://img.shields.io/badge/Cybersecurity-eJPTv2_Prep-000000?style=for-the-badge&logo=tryhackme&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
-![Writeups](https://img.shields.io/badge/Writeups-4-blue?style=for-the-badge)
+![Writeups](https://img.shields.io/badge/Writeups-5-blue?style=for-the-badge)
 
 </div>
 

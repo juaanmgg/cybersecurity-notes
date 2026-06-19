@@ -35,12 +35,27 @@ He clasificado las máquinas por sistema operativo. Puedes hacer clic en "Leer" 
 
 ## 🛠️ Herramientas y Metodología
 
-Para la resolución de estas máquinas, aplico un enfoque estructurado utilizando el siguiente arsenal técnico:
+Para la resolución de estas máquinas, aplico un enfoque estructurado simulando un entorno real de Penetration Testing, utilizando el siguiente arsenal técnico:
 
-* **Reconocimiento & Enumeración:** `nmap` (TCP/UDP, Scripts NSE), `gobuster`, `enum4linux`.
-* **Explotación:** Búsqueda manual de exploits (`searchsploit`), manipulación de peticiones, `Metasploit Framework`.
-* **Post-Explotación & PrivEsc:** Enumeración manual de SUID/Sudo, migración de procesos, volcado de hashes (`hashdump`), estabilización de TTY.
-* **Cracking:** `Hashcat`, `John the Ripper`.
+* 🔍 **Reconocimiento & Enumeración:** 
+  * Escaneo de red y vulnerabilidades: `nmap` (TCP/UDP, Scripts NSE).
+  * Enumeración de directorios web y OSINT: `gobuster`, análisis manual de fuentes.
+  * Enumeración de servicios SMB/RPC: `enum4linux`, `smbmap`.
+* 💥 **Acceso Inicial & Explotación:** 
+  * Búsqueda e implementación de CVEs públicos (`searchsploit`).
+  * Explotación de servicios web (Inyecciones SQL, *File Upload Bypasses*).
+  * Interacción con servicios de escritorio remoto (`xfreerdp`).
+  * Uso avanzado de `Metasploit Framework`, incluyendo ataques *fileless* en memoria (`web_delivery`).
+* ⬆️ **Post-Explotación & Escalada de Privilegios (PrivEsc):** 
+  * **Entornos Linux:** Enumeración manual de binarios SUID y configuraciones Sudo (GTFOBins), estabilización interactiva de TTY.
+  * **Entornos Windows:** *Bypass* de controles UAC (ej. CVE-2019-1388), automatización de vectores locales (`local_exploit_suggester`), inyección y migración de procesos a servicios críticos (`spoolsv.exe`).
+* 🔑 **Extracción de Credenciales y Persistencia:**
+  * Volcado de bases de datos SAM y hashes locales (`hashdump`).
+  * Extracción de credenciales cacheadas en memoria RAM mediante `Kiwi` (Mimikatz).
+  * Creación de persistencia automatizada en el registro de Windows.
+* 🔓 **Cracking:**
+  * Ruptura de hashes NTLM y MD5 (con/sin *salt*) utilizando `Hashcat` y `John the Ripper`.
 
 ---
+
 *Desarrollado por Juan Merino Garrido - Estudiante de Ingeniería Informática*

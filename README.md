@@ -4,7 +4,7 @@
 
 ![Cybersecurity](https://img.shields.io/badge/Cybersecurity-eJPTv2_Prep-000000?style=for-the-badge&logo=tryhackme&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
-![Writeups](https://img.shields.io/badge/Writeups-6-blue?style=for-the-badge)
+![Writeups](https://img.shields.io/badge/Writeups-7-blue?style=for-the-badge)
 
 </div>
 
@@ -23,6 +23,7 @@ He clasificado las máquinas por sistema operativo. Puedes hacer clic en "Leer" 
 | **RootMe** | 🟢 Fácil | 05/06/2026 | File Upload Bypass, Reverse Shell, PrivEsc (SUID), Gobuster, GTFOBins | [👉 Leer](./Linux/RootMe.md) |
 | **Simple CTF** | 🟢 Fácil | 12/06/2026 | SQLi (Time-based), CMS Enum, Hashcat, Sudo Misconfig (vim), FTP Anon | [👉 Leer](./Linux/SimpleCTF.md) |
 | **Kenobi** | 🟢 Fácil | 21/06/2026 | SMB & NFS Enum, ProFTPD (mod_copy), SSH Key Theft, PATH Variable Hijacking | [👉 Leer](./Linux/Kenobi.md) |
+| **Bounty Hacker** | 🟢 Fácil | 22/06/2026 | Active Mode FTP (Raw netcat), SSH Brute-Force (Hydra), Sudo PrivEsc (tar checkpoint) | [👉 Leer](./Linux/BountyHacker.md) |
 
 ### 🪟 Entornos Windows
 
@@ -39,9 +40,9 @@ He clasificado las máquinas por sistema operativo. Puedes hacer clic en "Leer" 
 La resolución de las máquinas sigue un ciclo de auditoría profesional estructurado, combinando explotación manual y automatizada:
 
 * 🔍 **Reconocimiento & OSINT:** Análisis de superficie de ataque y enumeración de infraestructura con `nmap` (scripts NSE), `gobuster`, `enum4linux`, `smbclient` y monturas `NFS`.
-* 💥 **Acceso Inicial:** Explotación de vulnerabilidades web (SQLi, *File Upload Bypasses*), manipulación de servicios FTP (ej. *mod_copy*), montaje de recursos en red compartidos, validación de CVEs (`searchsploit`) y ejecución de *payloads fileless* en memoria vía `Metasploit` (`web_delivery`).
-* ⬆️ **Escalada de Privilegios:** Abuso de SUID/Sudo en entornos Linux (GTFOBins, secuestro de la variable `$PATH`) y *bypasses* de UAC en Windows (ej. CVE-2019-1388), incluyendo inyección y migración de procesos (`spoolsv.exe`).
-* 🔑 **Post-Explotación & Cracking:** Extracción de credenciales cacheadas en memoria (`Kiwi/Mimikatz`), volcado de la SAM, sustracción de claves privadas SSH, persistencia en registro y ruptura de hashes offline (*NTLM/MD5*) con `Hashcat` y `John the Ripper`.
+* 💥 **Acceso Inicial:** Explotación de vulnerabilidades web (SQLi, *File Uploads*), manipulación de servicios FTP a bajo nivel (ej. *Raw Active Mode*, *mod_copy*), *Fuerza Bruta* con diccionarios customizados (`Hydra`), validación de CVEs (`searchsploit`) y ejecución *fileless* en memoria vía `Metasploit` (`web_delivery`).
+* ⬆️ **Escalada de Privilegios:** Abuso de SUID/Sudo en Linux (GTFOBins, variables `$PATH`, *tar checkpoints*) y *bypasses* de UAC en Windows (ej. CVE-2019-1388), incluyendo inyección y migración de procesos (`spoolsv.exe`).
+* 🔑 **Post-Explotación & Cracking:** Extracción de credenciales en memoria (`Kiwi/Mimikatz`), volcado de SAM, sustracción de claves SSH, persistencia en registro y ruptura offline (*NTLM/MD5*) con `Hashcat` y `John the Ripper`.
 
 ---
 

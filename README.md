@@ -4,7 +4,7 @@
 
 ![Cybersecurity](https://img.shields.io/badge/Cybersecurity-eJPTv2_Prep-000000?style=for-the-badge&logo=tryhackme&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
-![Writeups](https://img.shields.io/badge/Writeups-8-blue?style=for-the-badge)
+![Writeups](https://img.shields.io/badge/Writeups-9-blue?style=for-the-badge)
 
 </div>
 
@@ -25,6 +25,7 @@ He clasificado las máquinas por sistema operativo. Puedes hacer clic en "Leer" 
 | **Kenobi** | 🟢 Fácil | 21/06/2026 | SMB & NFS Enum, ProFTPD (mod_copy), SSH Key Theft, PATH Variable Hijacking | [👉 Leer](./Linux/Kenobi.md) |
 | **Bounty Hacker** | 🟢 Fácil | 22/06/2026 | Active Mode FTP (Raw netcat), SSH Brute-Force (Hydra), Sudo PrivEsc (tar checkpoint) | [👉 Leer](./Linux/BountyHacker.md) |
 | **Pickle Rick** | 🟢 Fácil | 23/06/2026 | OSINT (Source Code), Hardcoded Creds, Authenticated RCE, Reverse Shell, Sudo (ALL) | [👉 Leer](./Linux/PickleRick.md) |
+| **Agent Sudo** | 🟢 Fácil | 25/06/2026 | HTTP Header Spoofing, Steganography (Binwalk/Steghide), Zip Hash Cracking, CVE-2019-14287 | [👉 Leer](./Linux/AgentSudo.md) |
 
 ### 🪟 Entornos Windows
 
@@ -40,10 +41,10 @@ He clasificado las máquinas por sistema operativo. Puedes hacer clic en "Leer" 
 
 La resolución de las máquinas sigue un ciclo de auditoría profesional estructurado, combinando explotación manual y automatizada:
 
-* 🔍 **Reconocimiento & OSINT:** Análisis de superficie de ataque, enumeración de infraestructura con `nmap` (scripts NSE), `gobuster`, `enum4linux`, `smbclient` y monturas `NFS`. Auditoría manual de código fuente (Data Exposure).
-* 💥 **Acceso Inicial:** Explotación de vulnerabilidades web (SQLi, *Authenticated RCE*, *File Uploads*), manipulación de servicios FTP a bajo nivel (ej. *Raw Active Mode*), *Fuerza Bruta* con diccionarios customizados (`Hydra`), validación de CVEs y ejecución *fileless* en memoria vía `Metasploit` (`web_delivery`).
-* ⬆️ **Escalada de Privilegios:** Abuso de SUID/Sudo en Linux (GTFOBins, variables `$PATH`, *tar checkpoints*, `NOPASSWD`), y *bypasses* de UAC en Windows (ej. CVE-2019-1388), incluyendo inyección y migración de procesos (`spoolsv.exe`).
-* 🔑 **Post-Explotación & Cracking:** Extracción de credenciales en memoria (`Kiwi/Mimikatz`), volcado de SAM, sustracción de claves SSH, persistencia en registro y ruptura offline (*NTLM/MD5*) con `Hashcat` y `John the Ripper`.
+* 🔍 **Reconocimiento & OSINT:** Análisis de superficie de ataque, enumeración de infraestructura con `nmap` (scripts NSE), `gobuster`, `enum4linux` y monturas `NFS`. Auditoría manual de código fuente y manipulación de cabeceras HTTP (Burp Suite).
+* 💥 **Acceso Inicial:** Explotación de vulnerabilidades web (SQLi, *Authenticated RCE*, *File Uploads*), análisis de archivos (Esteganografía con `binwalk` y `steghide`), manipulación de servicios FTP a bajo nivel (ej. *Raw Active Mode*), *Fuerza Bruta* (`Hydra`), validación de CVEs y ejecución *fileless* en memoria vía `Metasploit`.
+* ⬆️ **Escalada de Privilegios:** Abuso de SUID/Sudo en Linux (GTFOBins, variables `$PATH`, *tar checkpoints*, explotación de CVE-2019-14287 Sudo Bypass), y *bypasses* de UAC en Windows (ej. CVE-2019-1388), incluyendo inyección y migración de procesos (`spoolsv.exe`).
+* 🔑 **Post-Explotación & Cracking:** Extracción de credenciales en memoria (`Kiwi/Mimikatz`), volcado de SAM, sustracción de claves SSH, persistencia en registro y ruptura offline (*NTLM/MD5*, *ZIP Hashes*) con `Hashcat`, `zip2john` y `John the Ripper`.
 
 ---
 

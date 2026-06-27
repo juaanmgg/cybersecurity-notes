@@ -4,7 +4,7 @@
 
 ![Cybersecurity](https://img.shields.io/badge/Cybersecurity-eJPTv2_Prep-000000?style=for-the-badge&logo=tryhackme&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
-![Writeups](https://img.shields.io/badge/Writeups-9-blue?style=for-the-badge)
+![Writeups](https://img.shields.io/badge/Writeups-10-blue?style=for-the-badge)
 
 </div>
 
@@ -14,7 +14,7 @@ El objetivo de estos *writeups* no es solo capturar la bandera, sino entender el
 
 ## 🎯 Máquinas Resueltas
 
-He clasificado las máquinas por sistema operativo. Puedes hacer clic en "Leer" para ver la metodología completa paso a paso.
+He clasificado las máquinas por sistema operativo y entorno. Puedes hacer clic en "Leer" para ver la metodología completa paso a paso.
 
 ### 🐧 Entornos Linux
 
@@ -27,13 +27,14 @@ He clasificado las máquinas por sistema operativo. Puedes hacer clic en "Leer" 
 | **Pickle Rick** | 🟢 Fácil | 23/06/2026 | OSINT (Source Code), Hardcoded Creds, Authenticated RCE, Reverse Shell, Sudo (ALL) | [👉 Leer](./Linux/PickleRick.md) |
 | **Agent Sudo** | 🟢 Fácil | 25/06/2026 | HTTP Header Spoofing, Steganography (Binwalk/Steghide), Zip Hash Cracking, CVE-2019-14287 | [👉 Leer](./Linux/AgentSudo.md) |
 
-### 🪟 Entornos Windows
+### 🪟 Entornos Windows & Active Directory
 
 | Máquina | Dificultad | Fecha | Conceptos Clave & Técnicas | Writeup |
 | :--- | :--- | :--- | :--- | :--- |
 | **Blue** | 🟢 Fácil | 13/06/2026 | MS17-010 (EternalBlue), Metasploit, Hash dumping, NTLM cracking (John The Ripper) | [👉 Leer](./Windows/Blue.md) |
 | **Ice** | 🟢 Fácil | 17/06/2026 | Icecast Exploit, Local Exploit Suggester, Process Migration (spoolsv.exe), Kiwi/Mimikatz | [👉 Leer](./Windows/Ice.md) |
 | **Blaster** | 🟢 Fácil | 19/06/2026 | OSINT, RDP, CVE-2019-1388 (UAC Bypass), Metasploit Web Delivery, Persistence | [👉 Leer](./Windows/Blaster.md) |
+| **Attacktive Directory**| 🟡 Media | 27/06/2026 | Active Directory, Kerbrute, AS-REP Roasting (Impacket), DCSync, Pass-the-Hash (Evil-WinRM)| [👉 Leer](./Windows/AttacktiveDirectory.md)|
 
 ---
 
@@ -42,9 +43,10 @@ He clasificado las máquinas por sistema operativo. Puedes hacer clic en "Leer" 
 La resolución de las máquinas sigue un ciclo de auditoría profesional estructurado, combinando explotación manual y automatizada:
 
 * 🔍 **Reconocimiento & OSINT:** Análisis de superficie de ataque, enumeración de infraestructura con `nmap` (scripts NSE), `gobuster`, `enum4linux` y monturas `NFS`. Auditoría manual de código fuente y manipulación de cabeceras HTTP (Burp Suite).
-* 💥 **Acceso Inicial:** Explotación de vulnerabilidades web (SQLi, *Authenticated RCE*, *File Uploads*), análisis de archivos (Esteganografía con `binwalk` y `steghide`), manipulación de servicios FTP a bajo nivel (ej. *Raw Active Mode*), *Fuerza Bruta* (`Hydra`), validación de CVEs y ejecución *fileless* en memoria vía `Metasploit`.
-* ⬆️ **Escalada de Privilegios:** Abuso de SUID/Sudo en Linux (GTFOBins, variables `$PATH`, *tar checkpoints*, explotación de CVE-2019-14287 Sudo Bypass), y *bypasses* de UAC en Windows (ej. CVE-2019-1388), incluyendo inyección y migración de procesos (`spoolsv.exe`).
-* 🔑 **Post-Explotación & Cracking:** Extracción de credenciales en memoria (`Kiwi/Mimikatz`), volcado de SAM, sustracción de claves SSH, persistencia en registro y ruptura offline (*NTLM/MD5*, *ZIP Hashes*) con `Hashcat`, `zip2john` y `John the Ripper`.
+* 💥 **Acceso Inicial & Web:** Explotación de vulnerabilidades (SQLi, *Authenticated RCE*), análisis esteganográfico (`binwalk`, `steghide`), manipulación de protocolos a bajo nivel (*Raw Active Mode* FTP), *Fuerza Bruta* (`Hydra`) y ejecución *fileless* en memoria (`Metasploit`).
+* 🏢 **Active Directory (AD):** Enumeración de dominio mediante `Kerbrute`, recolección de *tickets* vulnerables (*AS-REP Roasting*), extracción de base de datos NTDS (`Impacket secretsdump` / DCSync) y acceso vía WinRM (`Evil-WinRM`).
+* ⬆️ **Escalada de Privilegios:** Abuso de SUID/Sudo en Linux (GTFOBins, `$PATH`, *tar checkpoints*, CVE-2019-14287), y *bypasses* de UAC en Windows (CVE-2019-1388), migrando procesos a servicios del sistema (`spoolsv.exe`).
+* 🔑 **Post-Explotación & Cracking:** Extracción de credenciales en memoria (`Kiwi/Mimikatz`), técnica *Pass-the-Hash* (PtH), persistencia en registro y ruptura offline (*NTLM/MD5*, *ZIP Hashes*, *Kerberos etype 23*) con `Hashcat` y `John the Ripper`.
 
 ---
 

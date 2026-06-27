@@ -4,7 +4,7 @@
 
 ![Cybersecurity](https://img.shields.io/badge/Cybersecurity-eJPTv2_Prep-000000?style=for-the-badge&logo=tryhackme&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
-![Writeups](https://img.shields.io/badge/Writeups-10-blue?style=for-the-badge)
+![Writeups](https://img.shields.io/badge/Writeups-11-blue?style=for-the-badge)
 
 </div>
 
@@ -35,6 +35,7 @@ He clasificado las máquinas por sistema operativo y entorno. Puedes hacer clic 
 | **Ice** | 🟢 Fácil | 17/06/2026 | Icecast Exploit, Local Exploit Suggester, Process Migration (spoolsv.exe), Kiwi/Mimikatz | [👉 Leer](./Windows/Ice.md) |
 | **Blaster** | 🟢 Fácil | 19/06/2026 | OSINT, RDP, CVE-2019-1388 (UAC Bypass), Metasploit Web Delivery, Persistence | [👉 Leer](./Windows/Blaster.md) |
 | **Attacktive Directory**| 🟡 Media | 27/06/2026 | Active Directory, Kerbrute, AS-REP Roasting (Impacket), DCSync, Pass-the-Hash (Evil-WinRM)| [👉 Leer](./Windows/AttacktiveDirectory.md)|
+| **Relevant** | 🟡 Media | 27/06/2026 | SMB-to-Web Mapping, IIS Misconfig, ASPX Payload, Token Impersonation (PrintSpoofer) | [👉 Leer](./Windows/Relevant.md) |
 
 ---
 
@@ -42,11 +43,12 @@ He clasificado las máquinas por sistema operativo y entorno. Puedes hacer clic 
 
 La resolución de las máquinas sigue un ciclo de auditoría profesional estructurado, combinando explotación manual y automatizada:
 
-* 🔍 **Reconocimiento & OSINT:** Análisis de superficie de ataque, enumeración de infraestructura con `nmap` (scripts NSE), `gobuster`, `enum4linux` y monturas `NFS`. Auditoría manual de código fuente y manipulación de cabeceras HTTP (Burp Suite).
-* 💥 **Acceso Inicial & Web:** Explotación de vulnerabilidades (SQLi, *Authenticated RCE*), análisis esteganográfico (`binwalk`, `steghide`), manipulación de protocolos a bajo nivel (*Raw Active Mode* FTP), *Fuerza Bruta* (`Hydra`) y ejecución *fileless* en memoria (`Metasploit`).
+* 🔍 **Reconocimiento & OSINT:** Análisis de superficie de ataque, enumeración de infraestructura con `nmap` (scripts NSE), `gobuster`, `enum4linux` y monturas `NFS`. Detección de fallos de arquitectura (SMB-to-Web Mapping) y auditoría de cabeceras HTTP.
+* 💥 **Acceso Inicial & Web:** Explotación de vulnerabilidades (SQLi, *Authenticated RCE*), generación de *payloads* nativos (`msfvenom` .aspx/.php), manipulación de protocolos (*Raw Active Mode* FTP), *Fuerza Bruta* (`Hydra`) y ejecución *fileless* vía `Metasploit`.
 * 🏢 **Active Directory (AD):** Enumeración de dominio mediante `Kerbrute`, recolección de *tickets* vulnerables (*AS-REP Roasting*), extracción de base de datos NTDS (`Impacket secretsdump` / DCSync) y acceso vía WinRM (`Evil-WinRM`).
-* ⬆️ **Escalada de Privilegios:** Abuso de SUID/Sudo en Linux (GTFOBins, `$PATH`, *tar checkpoints*, CVE-2019-14287), y *bypasses* de UAC en Windows (CVE-2019-1388), migrando procesos a servicios del sistema (`spoolsv.exe`).
-* 🔑 **Post-Explotación & Cracking:** Extracción de credenciales en memoria (`Kiwi/Mimikatz`), técnica *Pass-the-Hash* (PtH), persistencia en registro y ruptura offline (*NTLM/MD5*, *ZIP Hashes*, *Kerberos etype 23*) con `Hashcat` y `John the Ripper`.
+* ⬆️ **Escalada de Privilegios:** * *Linux:* Abuso de SUID/Sudo (GTFOBins, `$PATH`, *tar checkpoints*, CVE-2019-14287).
+  * *Windows:* *Bypasses* de UAC (CVE-2019-1388), migración de procesos (`spoolsv.exe`) y suplantación de *tokens* locales abusando de `SeImpersonatePrivilege` (`PrintSpoofer`).
+* 🔑 **Post-Explotación & Cracking:** Extracción de credenciales en memoria (`Kiwi/Mimikatz`), técnica *Pass-the-Hash* (PtH), persistencia en registro y ruptura offline (*NTLM/MD5*, *ZIP Hashes*, Base64, *Kerberos etype 23*) con `Hashcat` y `John the Ripper`.
 
 ---
 

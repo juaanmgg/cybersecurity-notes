@@ -4,7 +4,7 @@
 
 ![Cybersecurity](https://img.shields.io/badge/Cybersecurity-eJPTv2_Prep-000000?style=for-the-badge&logo=tryhackme&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
-![Writeups](https://img.shields.io/badge/Writeups-11-blue?style=for-the-badge)
+![Writeups](https://img.shields.io/badge/Writeups-12-blue?style=for-the-badge)
 
 </div>
 
@@ -26,6 +26,8 @@ He clasificado las máquinas por sistema operativo y entorno. Puedes hacer clic 
 | **Bounty Hacker** | 🟢 Fácil | 22/06/2026 | Active Mode FTP (Raw netcat), SSH Brute-Force (Hydra), Sudo PrivEsc (tar checkpoint) | [👉 Leer](./Linux/BountyHacker.md) |
 | **Pickle Rick** | 🟢 Fácil | 23/06/2026 | OSINT (Source Code), Hardcoded Creds, Authenticated RCE, Reverse Shell, Sudo (ALL) | [👉 Leer](./Linux/PickleRick.md) |
 | **Agent Sudo** | 🟢 Fácil | 25/06/2026 | HTTP Header Spoofing, Steganography (Binwalk/Steghide), Zip Hash Cracking, CVE-2019-14287 | [👉 Leer](./Linux/AgentSudo.md) |
+| **Vulnversity** | 🟢 Fácil | 18/11/2026 | FTP Anonymous, MySQL Auth, vsftpd backdoor, PrivEsc to root | [👉 Leer](./Linux/Vulnversity.md) |
+
 
 ### 🪟 Entornos Windows & Active Directory
 

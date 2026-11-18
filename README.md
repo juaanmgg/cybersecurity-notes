@@ -8,7 +8,7 @@
 
 </div>
 
-Repositorio personal donde documento mis resoluciones, metodologías y apuntes de máquinas de **TryHackMe** mientras me preparo para la certificación **eJPTv2**. 
+Repositorio personal donde documento mis resoluciones, metodologías y apuntes de máquinas de **TryHackMe** con la certificación **eJPTv2** en mente. 
 
 El objetivo de estos *writeups* no es solo capturar la bandera, sino entender el **porqué** de cada vulnerabilidad, documentar comandos precisos y afianzar metodologías de Penetration Testing (Reconocimiento, Explotación, Post-Explotación).
 

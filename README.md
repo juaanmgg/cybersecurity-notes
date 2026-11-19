@@ -27,7 +27,7 @@ He clasificado las máquinas por sistema operativo y entorno. Puedes hacer clic 
 | **Pickle Rick** | 🟢 Fácil | 23/06/2026 | OSINT (Source Code), Hardcoded Creds, Authenticated RCE, Reverse Shell, Sudo (ALL) | [👉 Leer](./Linux/PickleRick.md) |
 | **Agent Sudo** | 🟢 Fácil | 25/06/2026 | HTTP Header Spoofing, Steganography (Binwalk/Steghide), Zip Hash Cracking, CVE-2019-14287 | [👉 Leer](./Linux/AgentSudo.md) |
 | **Vulnversity** | 🟢 Fácil | 18/11/2026 | FTP Anonymous, MySQL Auth, vsftpd backdoor, PrivEsc to root | [👉 Leer](./Linux/Vulnversity.md) |
-| **Overpass** | 🟢 Fácil | 19/11/2026 | Nginx misconfig, SSTI, SUID abuse, Docker escape | [👉 Leer](./Linux/Overpass.md) |
+| **Overpass** | 🟢 Fácil | 19/11/2026 | dirsearch brute‑force, SessionToken manipulation, RSA key extraction, SSH key cracking, cron buildscript abuse, /etc/hosts hijack, root flag exfiltration | [👉 Leer](./Linux/Overpass.md) |
 
 
 ### 🪟 Entornos Windows & Active Directory

